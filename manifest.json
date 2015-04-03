@@ -17,10 +17,17 @@
   ],
   "permissions": [
     "*://*/*",
-    "activeTab"
+    "activeTab",
+    "storage",
+    "declarativeContent"
   ],
   "background": {
     "scripts": ["background.js"],
     "persistent": false
+  },
+  "page_action": {
+    "default_icon": "popup/icon.png",
+    "default_title": "Series of Tubes",
+    "default_popup": "popup/popup.html"
   }
 }

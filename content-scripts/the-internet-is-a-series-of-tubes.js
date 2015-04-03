@@ -8,31 +8,46 @@
  *    also with a DOM node 'this' context
 **/
 
-var internetRegex = /\binternet/ig;
+var makeRegex = function (matchText) {
+  return new RegExp('\\b' + matchText, 'ig');
+}
 
-var replaceText = function ($matchingTextNodes) {
+var replaceText = function ($matchingTextNodes, replacementText, regex) {
   $matchingTextNodes.replaceWith(function () {
-    return $(this).text().replace(internetRegex,
-        '<span class="series-of-tubes">series of tubes</span>');
+    return $(this).text().replace(regex,
+        '<span class="series-of-tubes">' + replacementText + '</span>');
   });
 };
 
 
-var walk = function($nodes) {
+var walk = function($nodes, matchText, replacementText) {
   var $contents = $nodes.contents();
+  var regex = makeRegex(matchText);
   var $matchingTextNodes = $contents.filter(function () {
     return this.nodeType === 3 &&
-           $(this).text().match(internetRegex);
+           $(this).text().match(regex);
   });
   var $elementNodes = $contents.filter(function () {
     return this.nodeType === 1
             && this.tagName.toLowerCase() !== 'script'
             && this.tagName.toLowerCase() !== 'style';
   });
-  replaceText($matchingTextNodes);
+  replaceText($matchingTextNodes, replacementText, regex);
   if ($elementNodes.length > 0) {
-    walk($elementNodes);
+    walk($elementNodes, matchText, replacementText);
   }
 };
 
-walk($('body'));
+var walkAllPairs = function() {
+  chrome.storage.sync.get('replacementPairs', function (result) {
+    var replacementPairs = result.replacementPairs;
+    for (var i = 0; i < replacementPairs.length; i+=2) {
+      var matchText = replacementPairs[i];
+      var replacementText = replacementPairs[i + 1];
+      walk($('body'), matchText, replacementText);
+    }
+  });
+};
+
+window.walkAllPairs = walkAllPairs;
+walkAllPairs();
