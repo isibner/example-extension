@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+  "name": "The Internet is a Series of Tubes",
+  "version": "1.0.0",
+  "description": "It's like Cloud2Butt, but with Internet and Series of Tubes", 
+
+  "author": "Ian Sibner",
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "css": ["content-scripts/css/series-of-tubes.css"],
+      "js": [
+              "content-scripts/jquery-1.11.1.js",
+              "content-scripts/the-internet-is-a-series-of-tubes.js"
+      ]
+    }
+  ],
+  "permissions": [
+    "*://*/*",
+    "activeTab"
+  ]
+}
