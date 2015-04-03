@@ -9,3 +9,30 @@
 **/
 
 var internetRegex = /\binternet/ig;
+
+var replaceText = function ($matchingTextNodes) {
+  $matchingTextNodes.replaceWith(function () {
+    return $(this).text().replace(internetRegex,
+        '<span class="series-of-tubes">series of tubes</span>');
+  });
+};
+
+
+var walk = function($nodes) {
+  var $contents = $nodes.contents();
+  var $matchingTextNodes = $contents.filter(function () {
+    return this.nodeType === 3 &&
+           $(this).text().match(internetRegex);
+  });
+  var $elementNodes = $contents.filter(function () {
+    return this.nodeType === 1
+            && this.tagName.toLowerCase() !== 'script'
+            && this.tagName.toLowerCase() !== 'style';
+  });
+  replaceText($matchingTextNodes);
+  if ($elementNodes.length > 0) {
+    walk($elementNodes);
+  }
+};
+
+walk($('body'));
