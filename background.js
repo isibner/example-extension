@@ -1,6 +1,5 @@
 console.log('Hello from the Chrome extension!');
 
-chrome.storage.sync.clear();
 chrome.storage.sync.set({'replacementPairs': ['internet', 'series of tubes']});
 
 // when the extention is installed...
