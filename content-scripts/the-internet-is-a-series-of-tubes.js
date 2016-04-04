@@ -36,3 +36,5 @@ var walk = function($nodes) {
 };
 
 walk($('body'));
+
+// we'll need to add code here to walk all word/replacement pairs
