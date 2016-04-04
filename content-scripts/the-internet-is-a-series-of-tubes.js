@@ -8,6 +8,11 @@
  *    also with a DOM node 'this' context
 **/
 
+// NEW CODE - create a regex that matches a given word/phrase
+var makeRegex = function (matchText) {
+  return new RegExp('\\b' + matchText, 'ig');
+}
+
 var internetRegex = /\binternet/ig;
 
 var replaceText = function ($matchingTextNodes) {
